@@ -112,7 +112,7 @@ export default function ContactSection() {
       {/* Background (Hero Floor continuation) */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/bg-clean.png"
+          src="/bg-clean.webp"
           alt=""
           aria-hidden="true"
           className="w-full h-full object-cover object-bottom"
@@ -135,7 +135,7 @@ export default function ContactSection() {
               height="800"
             >
               <image
-                href="/bg-clean.png"
+                href="/bg-clean.webp"
                 x="0"
                 y="0"
                 width="1200"

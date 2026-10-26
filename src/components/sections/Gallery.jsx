@@ -162,7 +162,7 @@ export default function GallerySection() {
             transition={{ duration: 2.5, ease: "easeOut" }}
             className="w-full h-full relative"
           >
-            <img src="/bg-clean.png" alt="" aria-hidden="true" className="w-full h-full object-cover" />
+            <img src="/bg-clean.webp" alt="" aria-hidden="true" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-[#1B1B2F]/40" />
           </motion.div>
         </motion.div>

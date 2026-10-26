@@ -136,7 +136,7 @@ function TactileCard({ item, index, isActive, reduce, onSelect }) {
       >
         <div className="absolute inset-0 rounded-[20px] overflow-hidden">
           <img
-            src="/bg-clean.png"
+            src="/bg-clean.webp"
             alt=""
             aria-hidden="true"
             draggable={false}

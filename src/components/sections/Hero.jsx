@@ -136,7 +136,7 @@ export default function Hero() {
             transition={{ duration: 2.6, ease: EASE }}
           >
             <motion.div className="absolute -inset-4" style={reduce ? undefined : { x: bgX, y: bgPY }}>
-              <img src="/bg-clean.png" alt="" aria-hidden="true" className="w-full h-full object-cover" />
+              <img src="/bg-clean.webp" alt="" aria-hidden="true" className="w-full h-full object-cover" />
             </motion.div>
           </motion.div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
@@ -303,7 +303,7 @@ export default function Hero() {
                 height="800"
               >
                 <image
-                  href="/bg-clean.png"
+                  href="/bg-clean.webp"
                   x="0"
                   y="0"
                   width="1200"
