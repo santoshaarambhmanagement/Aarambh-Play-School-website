@@ -24,15 +24,18 @@ import {
   Check,
   X,
 } from "lucide-react";
-import { useInquiry } from '../../context/InquiryContext'; // <-- Added Global Form Context
+import { useInquiry } from '../../context/InquiryContext';
+import { CONTACT } from "../../data/contactData";
 
 /* ------------------------------------------------------------------ */
 /* Constants                                                           */
 /* ------------------------------------------------------------------ */
 
-const INK = "#1E2028"; // same ink as the hero and philosophy sections
+const INK = "#1E2028"; 
 const PAPER = "#F7F1E3";
-const WHATSAPP_NUMBER = "918709189974"; // TODO: Replace with real client number
+// FIX: Removed the curly braces and used standard dot notation.
+// Added a fallback to phoneTel just in case the whatsapp variable is empty.
+const WHATSAPP_NUMBER = CONTACT.whatsapp || CONTACT.phoneTel; 
 const EASE = [0.22, 1, 0.36, 1];
 
 const hexA = (hex, a) => {
@@ -40,7 +43,6 @@ const hexA = (hex, a) => {
   return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a})`;
 };
 
-// Block depth is in `em`, so the extrusion scales with the block on every screen size.
 const extrudeEm = (color) => {
   let s = "";
   for (let i = 1; i <= 8; i++)
@@ -143,7 +145,6 @@ const STAGES = [
   ...s,
   litShadow: extrudeEm(s.shade),
   dimShadow: extrudeEm("#D9CCAA"),
-  // Blocks grow a little with each stage, like the child does.
   sizeM: `${2.75 + i * 0.125}rem`,
   sizeD: `clamp(${4 + i * 0.25}rem, 7vw, ${5.5 + i * 0.6}rem)`,
 }));
@@ -164,7 +165,6 @@ function WashiTape({ color }) {
   );
 }
 
-// Photo, with a tinted block (and the stage number) if the file is missing.
 function StagePhoto({ stage, className = "" }) {
   const [failed, setFailed] = useState(false);
   return (
@@ -192,7 +192,6 @@ function StagePhoto({ stage, className = "" }) {
   );
 }
 
-// The numbered block on the road. It lights up in its colour when the walker arrives.
 function StopMarker({ stage, lit, reduce, onOpen }) {
   return (
     <motion.div
@@ -290,11 +289,6 @@ function StageCard({ stage, reduce, onOpen }) {
   );
 }
 
-/*
-  One row per stage. The same markup serves every screen size:
-  below lg the marker sits on a left-hand spine; from lg up the marker sits
-  off-centre and the card goes to the opposite side, so the road weaves between them.
-*/
 function StopRow({ stage, index, lit, reduce, onOpen, slotRef }) {
   const cardRight = index % 2 === 0;
   return (
@@ -367,7 +361,6 @@ function Journey({ reduce, onOpen }) {
   const wr = useMotionValue(0);
   const roadOpacity = useTransform(paint, [0, 0.004], [0, 1]);
 
-  // Read the real marker positions, so the road always runs through them at any width.
   const measure = useCallback(() => {
     const c = containerRef.current;
     if (!c) return;
@@ -401,8 +394,6 @@ function Journey({ reduce, onOpen }) {
     return () => ro.disconnect();
   }, [measure]);
 
-  // S-curves between markers. Every segment leaves and arrives vertically,
-  // so on mobile (same x everywhere) it collapses to a straight spine.
   const d = useMemo(() => {
     if (!geom) return "";
     const { pts } = geom;
@@ -416,8 +407,6 @@ function Journey({ reduce, onOpen }) {
     return s;
   }, [geom]);
 
-  // Scroll progress, measured between the first and last marker. The walker
-  // stays between 52% and 62% of the viewport height all the way down.
   const { scrollY } = useScroll();
   const raw = useMotionValue(0);
   const progress = useSpring(raw, { stiffness: 100, damping: 30, mass: 0.5 });
@@ -447,7 +436,6 @@ function Journey({ reduce, onOpen }) {
     return () => window.removeEventListener("resize", recompute);
   }, [geom, reduce, recompute]);
 
-  // Move the painted road tip and the walker. Motion values only, so no React renders per frame.
   const update = useCallback(
     (p) => {
       const path = measureRef.current;
@@ -459,7 +447,6 @@ function Journey({ reduce, onOpen }) {
       const yN = g.pts[g.pts.length - 1].y;
       const targetY = y0 + Math.min(1, Math.max(0, p)) * (yN - y0);
 
-      // The road only ever runs downwards, so find the point at that height.
       let lo = 0;
       let hi = len;
       for (let k = 0; k < 14; k++) {
@@ -473,7 +460,7 @@ function Journey({ reduce, onOpen }) {
       paint.set(L / len);
       tipY.set(pt.y);
       wx.set(pt.x);
-      wy.set(pt.y + Math.sin(L / 16) * 3); // a footstep per few pixels of road
+      wy.set(pt.y + Math.sin(L / 16) * 3);
       wr.set(Math.cos(L / 16) * 5);
 
       const count = g.pts.reduce((n, m) => n + (m.y <= targetY + 1 ? 1 : 0), 0);
@@ -530,7 +517,6 @@ function Journey({ reduce, onOpen }) {
             </clipPath>
           </defs>
 
-          {/* Faint track */}
           <path
             d={d}
             fill="none"
@@ -539,7 +525,6 @@ function Journey({ reduce, onOpen }) {
             className="[stroke-width:14px] lg:[stroke-width:36px]"
           />
 
-          {/* Painted road */}
           <motion.path
             d={d}
             fill="none"
@@ -549,7 +534,6 @@ function Journey({ reduce, onOpen }) {
             style={{ pathLength: paint, opacity: roadOpacity }}
           />
 
-          {/* Centre dashes, revealed up to the walker */}
           <path
             d={d}
             fill="none"
@@ -560,7 +544,6 @@ function Journey({ reduce, onOpen }) {
             className="[stroke-width:2px] lg:[stroke-width:4px]"
           />
 
-          {/* Invisible copy used only for measuring */}
           <path ref={measureRef} d={d} fill="none" stroke="none" />
         </svg>
       )}
@@ -593,13 +576,12 @@ function Journey({ reduce, onOpen }) {
 function ExpandedModal({ stage, onClose }) {
   const dialogRef = useRef(null);
   const closeRef = useRef(null);
-  const { openInquiry } = useInquiry(); // <-- Access Context
+  const { openInquiry } = useInquiry();
 
   useEffect(() => {
     closeRef.current?.focus();
   }, []);
 
-  // Keep Tab inside the dialog while it is open
   const handleKeyDown = (e) => {
     if (e.key !== "Tab" || !dialogRef.current) return;
     const items = dialogRef.current.querySelectorAll("a[href], button");
@@ -638,7 +620,6 @@ function ExpandedModal({ stage, onClose }) {
         aria-labelledby={`dialog-title-${stage.slug}`}
         className="relative z-10 w-full max-w-2xl bg-[#FFFDF6] border-[3px] border-[#1E2028] overflow-hidden flex flex-col max-h-[90dvh]"
       >
-        {/* Colour band for the stage */}
         <div
           aria-hidden="true"
           className="h-3 shrink-0 border-b-[3px] border-[#1E2028]"
@@ -655,7 +636,6 @@ function ExpandedModal({ stage, onClose }) {
           <X className="w-6 h-6 text-[#1E2028]" />
         </button>
 
-        {/* The content fades in once the card has finished growing, so it never looks stretched */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, transition: { delay: 0.2, duration: 0.25 } }}
@@ -725,10 +705,7 @@ function ExpandedModal({ stage, onClose }) {
             >
               <MessageCircle className="w-5 h-5" /> Enquire on WhatsApp
             </a>
-            {/* 
-              FIX: Changed from `<a href="#contact">` to a `<button>` 
-              that calls `openInquiry()` and closes the modal simultaneously.
-            */}
+            
             <button
               type="button"
               onClick={() => {
@@ -755,7 +732,7 @@ export default function Programs() {
   const sectionRef = useRef(null);
   const ctaRef = useRef(null);
   const triggerRef = useRef(null);
-  const { openInquiry } = useInquiry(); // <-- Access Context
+  const { openInquiry } = useInquiry();
 
   const [activeStage, setActiveStage] = useState(null);
 
@@ -772,7 +749,6 @@ export default function Programs() {
     requestAnimationFrame(() => triggerRef.current?.focus?.());
   }, []);
 
-  // Escape closes the dialog, and the page doesn't scroll behind it
   useEffect(() => {
     if (!activeStage) return;
     const previous = document.body.style.overflow;
@@ -796,7 +772,6 @@ export default function Programs() {
       className="relative w-full pb-32 lg:pb-28 scroll-mt-24 overflow-x-clip bg-[#F7F1E3]"
       aria-labelledby="programs-heading"
     >
-      {/* Paper grain */}
       <div
         aria-hidden="true"
         className="absolute inset-0 z-0 pointer-events-none opacity-[0.06]"
@@ -805,7 +780,6 @@ export default function Programs() {
         }}
       />
 
-      {/* Wavy top divider */}
       <div
         aria-hidden="true"
         className="absolute top-0 left-0 w-full overflow-hidden leading-none z-20 translate-y-[-99%] drop-shadow-[0_10px_10px_rgba(0,0,0,0.15)]"
@@ -823,7 +797,6 @@ export default function Programs() {
         </svg>
       </div>
 
-      {/* Header */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 pt-14 md:pt-24 text-center flex flex-col items-center">
         <motion.div
           initial={reduce ? false : { scale: 0 }}
@@ -851,12 +824,10 @@ export default function Programs() {
         </motion.p>
       </div>
 
-      {/* The road */}
       <div className="relative z-10 mt-14 md:mt-20 max-w-3xl lg:max-w-6xl mx-auto px-4 sm:px-6">
         <Journey reduce={reduce} onOpen={openStage} />
       </div>
 
-      {/* End of the road */}
       <motion.div
         ref={ctaRef}
         initial={reduce ? false : { opacity: 0, y: 40 }}
@@ -870,7 +841,6 @@ export default function Programs() {
             Ready for your child's Aarambh?
           </h3>
           <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
-            {/* FIX: Wired to Context */}
             <button
               type="button"
               onClick={() => openInquiry({ source: "Programs End of Road" })}
@@ -890,14 +860,12 @@ export default function Programs() {
         </div>
       </motion.div>
 
-      {/* Stage dialog */}
       <AnimatePresence>
         {activeStage && (
           <ExpandedModal stage={activeStage} onClose={closeStage} />
         )}
       </AnimatePresence>
 
-      {/* Mobile bar. Hidden on lg, while the dialog is open, and once the end-of-road card is on screen. */}
       <AnimatePresence>
         {showBar && (
           <motion.div
@@ -907,7 +875,6 @@ export default function Programs() {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#FFFDF6] border-t-[3px] border-[#1E2028] p-4 pb-[max(1rem,env(safe-area-inset-bottom))] flex justify-between items-center gap-4 shadow-[0_-4px_20px_rgba(0,0,0,0.1)]"
           >
-            {/* FIX: Wired to Context */}
             <button
               type="button"
               onClick={() => openInquiry({ source: "Programs Mobile Bar" })}
