@@ -24,6 +24,7 @@ import {
   Check,
   X,
 } from "lucide-react";
+import { useInquiry } from '../../context/InquiryContext'; // <-- Added Global Form Context
 
 /* ------------------------------------------------------------------ */
 /* Constants                                                           */
@@ -592,6 +593,7 @@ function Journey({ reduce, onOpen }) {
 function ExpandedModal({ stage, onClose }) {
   const dialogRef = useRef(null);
   const closeRef = useRef(null);
+  const { openInquiry } = useInquiry(); // <-- Access Context
 
   useEffect(() => {
     closeRef.current?.focus();
@@ -723,13 +725,20 @@ function ExpandedModal({ stage, onClose }) {
             >
               <MessageCircle className="w-5 h-5" /> Enquire on WhatsApp
             </a>
-            <a
-              href="#contact"
-              onClick={onClose}
+            {/* 
+              FIX: Changed from `<a href="#contact">` to a `<button>` 
+              that calls `openInquiry()` and closes the modal simultaneously.
+            */}
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                openInquiry({ source: `Programs Section - ${stage.tagline}` });
+              }}
               className="flex-1 bg-white text-[#1E2028] border-[3px] border-[#1E2028] shadow-[4px_4px_0px_#1E2028] py-3 px-4 rounded-xl font-display font-bold text-center active:translate-y-1 active:shadow-none transition-all flex justify-center items-center gap-2 outline-none focus-visible:ring-4 focus-visible:ring-[#1F4FB5]/50"
             >
               <CalendarCheck className="w-5 h-5" /> Book a Tour
-            </a>
+            </button>
           </div>
         </motion.div>
       </motion.div>
@@ -746,6 +755,7 @@ export default function Programs() {
   const sectionRef = useRef(null);
   const ctaRef = useRef(null);
   const triggerRef = useRef(null);
+  const { openInquiry } = useInquiry(); // <-- Access Context
 
   const [activeStage, setActiveStage] = useState(null);
 
@@ -860,12 +870,14 @@ export default function Programs() {
             Ready for your child's Aarambh?
           </h3>
           <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
-            <a
-              href="#contact"
+            {/* FIX: Wired to Context */}
+            <button
+              type="button"
+              onClick={() => openInquiry({ source: "Programs End of Road" })}
               className="bg-[#F28C28] text-[#1E2028] border-[3px] border-[#1E2028] shadow-[4px_4px_0px_#1E2028] px-8 py-3 rounded-xl font-display font-bold text-lg hover:-translate-y-1 hover:shadow-[6px_6px_0px_#1E2028] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2 outline-none focus-visible:ring-4 focus-visible:ring-[#1F4FB5]/50"
             >
               <CalendarCheck className="w-5 h-5" /> Book a Tour
-            </a>
+            </button>
             <a
               href={`https://wa.me/${WHATSAPP_NUMBER}`}
               target="_blank"
@@ -895,12 +907,14 @@ export default function Programs() {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#FFFDF6] border-t-[3px] border-[#1E2028] p-4 pb-[max(1rem,env(safe-area-inset-bottom))] flex justify-between items-center gap-4 shadow-[0_-4px_20px_rgba(0,0,0,0.1)]"
           >
-            <a
-              href="#contact"
+            {/* FIX: Wired to Context */}
+            <button
+              type="button"
+              onClick={() => openInquiry({ source: "Programs Mobile Bar" })}
               className="flex-1 bg-[#F28C28] text-[#1E2028] border-[3px] border-[#1E2028] shadow-[4px_4px_0px_#1E2028] py-3 rounded-xl font-display font-bold text-center active:translate-y-1 active:shadow-none transition-all"
             >
               Book Tour
-            </a>
+            </button>
             <a
               href={`https://wa.me/${WHATSAPP_NUMBER}`}
               target="_blank"

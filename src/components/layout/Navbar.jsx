@@ -46,6 +46,8 @@ export default function Navbar() {
           <a href="/#philosophy" className="hover:text-[#F28C28] hover:-translate-y-0.5 transition-transform">Our Philosophy</a>
           <a href="/#programs" className="hover:text-[#F28C28] hover:-translate-y-0.5 transition-transform">Programs</a>
           <Link to="/gallery" className="hover:text-[#F28C28] hover:-translate-y-0.5 transition-transform">Gallery</Link>
+          {/* FIX: Added Contact Link */}
+          <a href="/#contact" className="hover:text-[#F28C28] hover:-translate-y-0.5 transition-transform">Contact</a>
         </nav>
 
         <div className="flex items-center gap-5">

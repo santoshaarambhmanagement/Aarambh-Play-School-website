@@ -81,7 +81,8 @@ function StickyNote() {
       whileInView={{ scale: 1, rotate: -4 }}
       viewport={{ once: true }}
       transition={{ type: "spring", stiffness: 260, damping: 14 }}
-      className="bg-noteYellow p-4 shadow-[4px_4px_0_0_rgba(0,0,0,0.15)] rotate-[-4deg] w-48 -mt-8 ml-4 lg:-ml-12 z-30"
+      // FIX: Changed mobile margins (mt-2 ml-12) so it drops below the email row
+      className="bg-noteYellow p-4 shadow-[4px_4px_0_0_rgba(0,0,0,0.15)] rotate-[-4deg] w-48 mt-2 lg:-mt-8 ml-12 lg:-ml-12 z-30"
       style={{
         clipPath:
           "polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%)",

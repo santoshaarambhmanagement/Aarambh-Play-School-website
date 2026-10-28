@@ -46,7 +46,15 @@ export default function Footer() {
             <ul className="flex flex-col gap-4 text-sm text-[#FFFDF6]/80 font-body font-bold">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-[#F28C28] shrink-0 mt-0.5" />
-                <span>{CONTACT.addressLines[0]}<br/>{CONTACT.addressLines[1]}</span>
+                {/* FIX: Wired to Google Maps URL */}
+                <a 
+                  href="https://www.google.co.in/maps/place/Aarambh+Play+School/@23.3890486,85.2922676,17z/data=!3m1!4b1!4m6!3m5!1s0x39f4e12ef07e220d:0x4344edc5383f370b!8m2!3d23.3890486!4d85.2948425!16s%2Fg%2F11lcd031bs?entry=ttu&g_ep=EgoyMDI2MTAyMC4wIKXMDSoASAFQAw%3D%3D" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-[#F7D117] transition-colors"
+                >
+                  {CONTACT.addressLines[0]}<br/>{CONTACT.addressLines[1]}
+                </a>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-[#F7D117] shrink-0" />
@@ -68,7 +76,8 @@ export default function Footer() {
           </div>
           <p className="flex items-center gap-2">
             Engineered by 
-            <a href="#" className="font-display font-extrabold text-[#FFFDF6]/80 tracking-wide hover:text-white transition-colors border-[2px] border-[#FFFDF6]/30 px-3 py-1 rounded-full text-xs">
+            {/* FIX: Wired to PixBrew Email */}
+            <a href="mailto:pixbrewgroup.official@gmail.com" className="font-display font-extrabold text-[#FFFDF6]/80 tracking-wide hover:text-white transition-colors border-[2px] border-[#FFFDF6]/30 px-3 py-1 rounded-full text-xs">
               PixBrew Groups
             </a>
           </p>
