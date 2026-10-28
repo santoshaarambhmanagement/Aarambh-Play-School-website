@@ -53,5 +53,5 @@ export const UNIFORM_INFO = {
   whereToBuy: "Available at School Office",
   priceNote: "", 
   sizeNote: "Available in all sizes from Nursery to Class 1",
-  whatsappNumber: "918709189974" // TODO: Change this to your real number
+  whatsappNumber: import.meta.env.VITE_CONTACT_WHATSAPP
 };

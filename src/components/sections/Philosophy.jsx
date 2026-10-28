@@ -144,7 +144,6 @@ function TactileCard({ item, index, isActive, reduce, onSelect }) {
           />
         </div>
 
-        {/* Content panel. Border only: the hard shadows on the panel and icon were stacking up. */}
         <div
           className="absolute inset-4 bg-[#F9F7F3] border-[3px] border-[#1E2028] rounded-2xl flex flex-col items-center justify-center text-center p-4"
           style={{ transform: "translateZ(28px)" }}
@@ -319,15 +318,21 @@ export default function Philosophy() {
             </p>
 
             {/* Principal's note */}
-            <div className="mt-6 pt-6 border-t-[2px] border-[#1E2028]/15 flex flex-row items-center gap-4">
-              <div className="w-16 h-16 shrink-0 rounded-full border-4 border-[#1E2028] overflow-hidden bg-white flex items-center justify-center">
-                <span className="font-display font-bold text-xs">Photo</span>
+            <div className="mt-8 pt-8 border-t-[2px] border-[#1E2028]/15 flex flex-col sm:flex-row items-center sm:items-start gap-6">
+              {/* FIX: Increased size dramatically (w-28 h-28) and added a subtle shadow */}
+              <div className="w-28 h-28 shrink-0 rounded-full border-4 border-[#1E2028] overflow-hidden bg-white shadow-[4px_4px_0px_rgba(30,32,40,1)]">
+                <img 
+                  src="/aarambh_principal.jpeg" 
+                  alt="Principal of Aarambh Play School" 
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
-              <div>
-                <p className="font-hand text-xl text-[#1E2028] mb-1 leading-snug">
+              
+              <div className="text-center sm:text-left flex flex-col justify-center h-full sm:pt-2">
+                <p className="font-hand text-2xl text-[#1E2028] mb-2 leading-snug">
                   "We believe that every grand journey begins with a meaningful step..."
                 </p>
-                <p className="font-display font-extrabold text-[#1F4FB5] text-xs uppercase tracking-wider">
+                <p className="font-display font-extrabold text-[#1F4FB5] text-sm uppercase tracking-wider">
                   — From the Principal
                 </p>
               </div>

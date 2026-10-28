@@ -2,6 +2,27 @@ import { Link } from 'react-router-dom'
 import { MapPin, Phone, Mail } from 'lucide-react'
 import { CONTACT } from '../../data/contactData'
 
+// --- Custom SVG Brand Icons ---
+const YoutubeIcon = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none" className={className}>
+    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+  </svg>
+);
+
+const InstagramIcon = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+  </svg>
+);
+
+const FacebookIcon = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none" className={className}>
+    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+  </svg>
+);
+
 export default function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -13,7 +34,7 @@ export default function Footer() {
         
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           {/* Brand Column */}
-          <div className="md:col-span-2">
+          <div className="md:col-span-1">
             <Link to="/" onClick={scrollToTop} className="flex items-center gap-3 mb-6 group inline-flex">
               <img 
                 src="/aarambh_logo.webp" 
@@ -39,6 +60,31 @@ export default function Footer() {
               <li><a href="/#contact" className="hover:text-[#F7D117] transition-colors inline-block hover:translate-x-1 duration-200">Admissions</a></li>
             </ul>
           </div>
+          
+           {/* Social Links (Dynamic via ENV) */}
+           <div>
+            <h4 className="font-display font-extrabold text-2xl text-white mb-6">Follow Us</h4>
+            <ul className="flex flex-col gap-4 text-sm text-[#FFFDF6]/80 font-body font-bold">
+              {CONTACT.social.youtube && (
+                <li className="flex items-center gap-3 group">
+                  <YoutubeIcon className="w-5 h-5 text-white/50 group-hover:text-[#FF0000] transition-colors shrink-0" />
+                  <a href={CONTACT.social.youtube} target="_blank" rel="noopener noreferrer" className="hover:text-[#F7D117] transition-colors">YouTube</a>
+                </li>
+              )}
+              {CONTACT.social.instagram && (
+                <li className="flex items-center gap-3 group">
+                  <InstagramIcon className="w-5 h-5 text-white/50 group-hover:text-[#E1306C] transition-colors shrink-0" />
+                   <a href={CONTACT.social.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-[#F7D117] transition-colors">Instagram</a>
+                </li>
+              )}
+              {CONTACT.social.facebook && (
+                <li className="flex items-center gap-3 group">
+                  <FacebookIcon className="w-5 h-5 text-white/50 group-hover:text-[#1877F2] transition-colors shrink-0" />
+                   <a href={CONTACT.social.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-[#F7D117] transition-colors">Facebook</a>
+                </li>
+              )}
+            </ul>
+          </div>
 
           {/* Contact Info */}
           <div>
@@ -46,9 +92,8 @@ export default function Footer() {
             <ul className="flex flex-col gap-4 text-sm text-[#FFFDF6]/80 font-body font-bold">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-[#F28C28] shrink-0 mt-0.5" />
-                {/* FIX: Wired to Google Maps URL */}
                 <a 
-                  href="https://www.google.co.in/maps/place/Aarambh+Play+School/@23.3890486,85.2922676,17z/data=!3m1!4b1!4m6!3m5!1s0x39f4e12ef07e220d:0x4344edc5383f370b!8m2!3d23.3890486!4d85.2948425!16s%2Fg%2F11lcd031bs?entry=ttu&g_ep=EgoyMDI2MTAyMC4wIKXMDSoASAFQAw%3D%3D" 
+                  href={CONTACT.mapsUrl} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="hover:text-[#F7D117] transition-colors"
@@ -76,7 +121,6 @@ export default function Footer() {
           </div>
           <p className="flex items-center gap-2">
             Engineered by 
-            {/* FIX: Wired to PixBrew Email */}
             <a href="mailto:pixbrewgroup.official@gmail.com" className="font-display font-extrabold text-[#FFFDF6]/80 tracking-wide hover:text-white transition-colors border-[2px] border-[#FFFDF6]/30 px-3 py-1 rounded-full text-xs">
               PixBrew Groups
             </a>
